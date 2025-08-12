@@ -18,6 +18,7 @@ interface SymptomEntry {
   emotionalEvent: string;
   cycleDay: string;
   notes: string;
+  photo?: string;
 }
 
 const Index = () => {

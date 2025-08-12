@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Slider } from "@/components/ui/slider";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Calendar, Heart, Brain, Droplets, Zap, Thermometer } from "lucide-react";
+import { Calendar, Heart, Brain, Droplets, Zap, Thermometer, Camera, X } from "lucide-react";
 
 interface SymptomEntry {
   date: string;
@@ -21,6 +21,7 @@ interface SymptomEntry {
   emotionalEvent: string;
   cycleDay: string;
   notes: string;
+  photo?: string; // Base64 encoded image
 }
 
 interface SymptomLoggerProps {
@@ -49,9 +50,29 @@ export default function SymptomLogger({ onLogEntry }: SymptomLoggerProps) {
   const [emotionalEvent, setEmotionalEvent] = useState("");
   const [cycleDay, setCycleDay] = useState("");
   const [notes, setNotes] = useState("");
+  const [photo, setPhoto] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleSymptomChange = (symptom: string, value: number[]) => {
     setSymptoms(prev => ({ ...prev, [symptom]: value[0] }));
+  };
+
+  const handlePhotoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setPhoto(e.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const removePhoto = () => {
+    setPhoto(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
   };
 
   const handleSubmit = () => {
@@ -61,6 +82,7 @@ export default function SymptomLogger({ onLogEntry }: SymptomLoggerProps) {
       emotionalEvent,
       cycleDay,
       notes,
+      ...(photo && { photo }),
     };
     
     onLogEntry(entry);
@@ -77,6 +99,10 @@ export default function SymptomLogger({ onLogEntry }: SymptomLoggerProps) {
     setEmotionalEvent("");
     setCycleDay("");
     setNotes("");
+    setPhoto(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
   };
 
   return (
@@ -144,6 +170,53 @@ export default function SymptomLogger({ onLogEntry }: SymptomLoggerProps) {
                 <SelectItem value="Break Day 7">Break Day 7</SelectItem>
               </SelectContent>
             </Select>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="photo">Daily Photo (Optional)</Label>
+            <div className="border-2 border-dashed border-border rounded-lg p-4">
+              {photo ? (
+                <div className="relative">
+                  <img 
+                    src={photo} 
+                    alt="Daily photo" 
+                    className="w-full h-48 object-cover rounded-lg"
+                  />
+                  <Button
+                    type="button"
+                    variant="destructive"
+                    size="sm"
+                    className="absolute top-2 right-2"
+                    onClick={removePhoto}
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
+                </div>
+              ) : (
+                <div className="text-center">
+                  <Camera className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+                  <p className="text-sm text-muted-foreground mb-2">
+                    Add a daily photo to track visual changes
+                  </p>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={handlePhotoUpload}
+                    className="hidden"
+                    id="photo-upload"
+                  />
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => fileInputRef.current?.click()}
+                  >
+                    <Camera className="h-4 w-4 mr-2" />
+                    Upload Photo
+                  </Button>
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="space-y-2">

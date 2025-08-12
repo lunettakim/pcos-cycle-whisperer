@@ -8,7 +8,7 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 177 100% 98%;
+    --background: 330 100% 98%;
     --foreground: 210 24% 16%;
 
     --card: 0 0% 100%;
@@ -17,40 +17,40 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 210 24% 16%;
 
-    --primary: 177 70% 41%;
+    --primary: 330 81% 60%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 177 30% 94%;
-    --secondary-foreground: 177 70% 25%;
+    --secondary: 330 30% 94%;
+    --secondary-foreground: 330 81% 25%;
 
-    --muted: 177 15% 96%;
-    --muted-foreground: 177 8% 45%;
+    --muted: 330 15% 96%;
+    --muted-foreground: 330 8% 45%;
 
-    --accent: 270 95% 75%;
+    --accent: 320 95% 75%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 177 20% 90%;
-    --input: 177 20% 90%;
-    --ring: 177 70% 41%;
+    --border: 330 20% 90%;
+    --input: 330 20% 90%;
+    --ring: 330 81% 60%;
 
     /* Health app specific colors */
-    --health-primary: 177 70% 41%;
-    --health-secondary: 270 95% 75%;
-    --health-accent: 200 100% 85%;
+    --health-primary: 330 81% 60%;
+    --health-secondary: 320 95% 75%;
+    --health-accent: 310 100% 85%;
     --health-warning: 45 93% 47%;
     --health-success: 142 71% 45%;
     
     /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(177 70% 41%), hsl(200 100% 85%));
-    --gradient-accent: linear-gradient(135deg, hsl(270 95% 75%), hsl(290 100% 85%));
-    --gradient-background: linear-gradient(180deg, hsl(177 100% 98%), hsl(177 30% 94%));
+    --gradient-primary: linear-gradient(135deg, hsl(330 81% 60%), hsl(320 95% 75%));
+    --gradient-accent: linear-gradient(135deg, hsl(320 95% 75%), hsl(310 100% 85%));
+    --gradient-background: linear-gradient(180deg, hsl(330 100% 98%), hsl(330 30% 94%));
     
     /* Shadows */
-    --shadow-health: 0 4px 20px -4px hsl(177 70% 41% / 0.15);
-    --shadow-card: 0 2px 10px -2px hsl(177 20% 50% / 0.1);
+    --shadow-health: 0 4px 20px -4px hsl(330 81% 60% / 0.15);
+    --shadow-card: 0 2px 10px -2px hsl(330 20% 50% / 0.1);
 
     --radius: 0.5rem;
 
@@ -73,47 +73,47 @@ All colors MUST be HSL.
 
   .dark {
     --background: 210 24% 8%;
-    --foreground: 177 30% 94%;
+    --foreground: 330 30% 94%;
 
     --card: 210 24% 10%;
-    --card-foreground: 177 30% 94%;
+    --card-foreground: 330 30% 94%;
 
     --popover: 210 24% 10%;
-    --popover-foreground: 177 30% 94%;
+    --popover-foreground: 330 30% 94%;
 
-    --primary: 177 70% 50%;
+    --primary: 330 81% 70%;
     --primary-foreground: 210 24% 8%;
 
     --secondary: 210 24% 14%;
-    --secondary-foreground: 177 30% 94%;
+    --secondary-foreground: 330 30% 94%;
 
     --muted: 210 24% 14%;
-    --muted-foreground: 177 8% 65%;
+    --muted-foreground: 330 8% 65%;
 
-    --accent: 270 95% 70%;
+    --accent: 320 95% 70%;
     --accent-foreground: 210 24% 8%;
 
     --destructive: 0 84% 55%;
-    --destructive-foreground: 177 30% 94%;
+    --destructive-foreground: 330 30% 94%;
 
     --border: 210 24% 16%;
     --input: 210 24% 16%;
-    --ring: 177 70% 50%;
+    --ring: 330 81% 70%;
 
     /* Health app specific colors - dark mode */
-    --health-primary: 177 70% 50%;
-    --health-secondary: 270 95% 70%;
-    --health-accent: 200 100% 75%;
+    --health-primary: 330 81% 70%;
+    --health-secondary: 320 95% 70%;
+    --health-accent: 310 100% 75%;
     --health-warning: 45 93% 55%;
     --health-success: 142 71% 55%;
     
     /* Gradients - dark mode */
-    --gradient-primary: linear-gradient(135deg, hsl(177 70% 50%), hsl(200 100% 75%));
-    --gradient-accent: linear-gradient(135deg, hsl(270 95% 70%), hsl(290 100% 75%));
+    --gradient-primary: linear-gradient(135deg, hsl(330 81% 70%), hsl(320 95% 70%));
+    --gradient-accent: linear-gradient(135deg, hsl(320 95% 70%), hsl(310 100% 75%));
     --gradient-background: linear-gradient(180deg, hsl(210 24% 8%), hsl(210 24% 12%));
     
     /* Shadows - dark mode */
-    --shadow-health: 0 4px 20px -4px hsl(177 70% 50% / 0.25);
+    --shadow-health: 0 4px 20px -4px hsl(330 81% 70% / 0.25);
     --shadow-card: 0 2px 10px -2px hsl(0 0% 0% / 0.2);
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;

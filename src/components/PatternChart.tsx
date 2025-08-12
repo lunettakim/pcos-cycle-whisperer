@@ -17,6 +17,7 @@ interface SymptomEntry {
   emotionalEvent: string;
   cycleDay: string;
   notes: string;
+  photo?: string;
 }
 
 interface PatternChartProps {
@@ -24,11 +25,11 @@ interface PatternChartProps {
 }
 
 const symptomColors = {
-  acne: '#f59e0b',
-  moonFace: '#8b5cf6',
+  acne: '#ec4899',
+  moonFace: '#a855f7',
   bloating: '#06b6d4',
-  stress: '#10b981',
-  eczema: '#f59e0b',
+  stress: '#f97316',
+  eczema: '#eab308',
   fatigue: '#6b7280',
 };
 

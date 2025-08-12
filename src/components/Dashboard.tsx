@@ -15,6 +15,7 @@ interface SymptomEntry {
   emotionalEvent: string;
   cycleDay: string;
   notes: string;
+  photo?: string;
 }
 
 interface DashboardProps {
@@ -114,6 +115,16 @@ export default function Dashboard({ entries }: DashboardProps) {
                     </Badge>
                   )}
                 </div>
+                
+                {entry.photo && (
+                  <div className="w-full">
+                    <img 
+                      src={entry.photo} 
+                      alt="Daily photo" 
+                      className="w-full h-32 object-cover rounded-lg border"
+                    />
+                  </div>
+                )}
                 
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
                   {Object.entries(entry.symptoms).map(([symptom, value]) => (
