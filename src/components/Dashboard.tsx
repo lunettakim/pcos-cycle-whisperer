@@ -14,6 +14,7 @@ interface SymptomEntry {
   };
   emotionalEvent: string;
   cycleDay: string;
+  cyclePhase: string;
   notes: string;
   photo?: string;
 }

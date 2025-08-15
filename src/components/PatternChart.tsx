@@ -16,6 +16,7 @@ interface SymptomEntry {
   };
   emotionalEvent: string;
   cycleDay: string;
+  cyclePhase: string;
   notes: string;
   photo?: string;
 }
@@ -42,6 +43,8 @@ export default function PatternChart({ entries }: PatternChartProps) {
       date: new Date(entry.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
       fullDate: entry.date,
       cycleDay: entry.cycleDay,
+      cyclePhase: entry.cyclePhase,
+      displayLabel: `${new Date(entry.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}${entry.cyclePhase ? ` (${entry.cyclePhase})` : ''}`,
       ...entry.symptoms,
     }));
 
@@ -49,6 +52,8 @@ export default function PatternChart({ entries }: PatternChartProps) {
     .slice(-14) // Last 14 days for better visibility
     .map(entry => ({
       date: new Date(entry.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+      cyclePhase: entry.cyclePhase,
+      displayLabel: `${new Date(entry.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}${entry.cyclePhase ? ` (${entry.cyclePhase})` : ''}`,
       ...entry.symptoms,
     }));
 
@@ -87,9 +92,12 @@ export default function PatternChart({ entries }: PatternChartProps) {
               <LineChart data={chartData}>
                 <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
                 <XAxis 
-                  dataKey="date" 
-                  tick={{ fontSize: 12 }}
+                  dataKey="displayLabel" 
+                  tick={{ fontSize: 10 }}
                   className="text-muted-foreground"
+                  angle={-45}
+                  textAnchor="end"
+                  height={80}
                 />
                 <YAxis 
                   domain={[0, 10]} 
@@ -106,11 +114,16 @@ export default function PatternChart({ entries }: PatternChartProps) {
                           <p className="text-sm text-muted-foreground">
                             {selectedSymptom.charAt(0).toUpperCase() + selectedSymptom.slice(1)}: {payload[0].value}/10
                           </p>
-                          {data.cycleDay && (
-                            <p className="text-sm text-health-secondary">
-                              Cycle: {data.cycleDay}
-                            </p>
-                          )}
+                           {data.cycleDay && (
+                             <p className="text-sm text-health-secondary">
+                               Cycle: {data.cycleDay}
+                             </p>
+                           )}
+                           {data.cyclePhase && (
+                             <p className="text-sm text-health-accent">
+                               Phase: {data.cyclePhase}
+                             </p>
+                           )}
                         </div>
                       );
                     }
@@ -146,9 +159,12 @@ export default function PatternChart({ entries }: PatternChartProps) {
               <LineChart data={allSymptomsData}>
                 <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
                 <XAxis 
-                  dataKey="date" 
-                  tick={{ fontSize: 12 }}
+                  dataKey="displayLabel" 
+                  tick={{ fontSize: 10 }}
                   className="text-muted-foreground"
+                  angle={-45}
+                  textAnchor="end"
+                  height={80}
                 />
                 <YAxis 
                   domain={[0, 10]} 
@@ -158,9 +174,15 @@ export default function PatternChart({ entries }: PatternChartProps) {
                 <Tooltip 
                   content={({ active, payload, label }) => {
                     if (active && payload && payload.length) {
+                      const data = payload[0].payload;
                       return (
                         <div className="bg-card border border-border rounded-lg p-3 shadow-lg">
-                          <p className="font-medium mb-2">{label}</p>
+                          <p className="font-medium mb-2">{data.date}</p>
+                          {data.cyclePhase && (
+                            <p className="text-sm text-health-accent mb-1">
+                              Phase: {data.cyclePhase}
+                            </p>
+                          )}
                           {payload.map((entry, index) => (
                             <p key={index} className="text-sm" style={{ color: entry.color }}>
                               {entry.dataKey?.toString().charAt(0).toUpperCase() + entry.dataKey?.toString().slice(1)}: {entry.value}/10

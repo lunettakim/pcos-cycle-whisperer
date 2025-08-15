@@ -24,6 +24,7 @@ interface SymptomEntry {
   };
   emotionalEvent: string;
   cycleDay: string;
+  cyclePhase: string;
   notes: string;
   photo?: string; // Base64 encoded image
 }
@@ -31,6 +32,26 @@ interface SymptomEntry {
 interface SymptomLoggerProps {
   onLogEntry: (entry: SymptomEntry) => void;
 }
+
+// Function to determine cycle phase based on birth control day
+const getCyclePhase = (cycleDay: string): string => {
+  if (!cycleDay) return "";
+  
+  if (cycleDay.startsWith("Break")) {
+    return "Menstrual";
+  }
+  
+  const dayNumber = parseInt(cycleDay.replace("Day ", ""));
+  if (dayNumber >= 1 && dayNumber <= 7) {
+    return "Follicular";
+  } else if (dayNumber >= 8 && dayNumber <= 14) {
+    return "Ovulation";
+  } else if (dayNumber >= 15 && dayNumber <= 21) {
+    return "Luteal";
+  }
+  
+  return "";
+};
 
 const symptoms = [
   { key: 'acne', label: 'Acne', icon: Droplets, color: 'text-health-warning' },
@@ -86,6 +107,7 @@ export default function SymptomLogger({ onLogEntry }: SymptomLoggerProps) {
       symptoms: symptoms_state,
       emotionalEvent,
       cycleDay,
+      cyclePhase: getCyclePhase(cycleDay),
       notes,
       ...(photo && { photo }),
     };
