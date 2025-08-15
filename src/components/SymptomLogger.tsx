@@ -6,7 +6,11 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Slider } from "@/components/ui/slider";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Calendar, Heart, Brain, Droplets, Zap, Thermometer, Camera, X } from "lucide-react";
+import { Calendar as CalendarComponent } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Calendar, Heart, Brain, Droplets, Zap, Thermometer, Camera, X, CalendarIcon } from "lucide-react";
+import { format } from "date-fns";
+import { cn } from "@/lib/utils";
 
 interface SymptomEntry {
   date: string;
@@ -47,6 +51,7 @@ export default function SymptomLogger({ onLogEntry }: SymptomLoggerProps) {
     fatigue: 0,
   });
   
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [emotionalEvent, setEmotionalEvent] = useState("");
   const [cycleDay, setCycleDay] = useState("");
   const [notes, setNotes] = useState("");
@@ -77,7 +82,7 @@ export default function SymptomLogger({ onLogEntry }: SymptomLoggerProps) {
 
   const handleSubmit = () => {
     const entry: SymptomEntry = {
-      date: new Date().toISOString().split('T')[0],
+      date: selectedDate.toISOString().split('T')[0],
       symptoms: symptoms_state,
       emotionalEvent,
       cycleDay,
@@ -115,7 +120,34 @@ export default function SymptomLogger({ onLogEntry }: SymptomLoggerProps) {
       </CardHeader>
       <CardContent className="p-6 space-y-6">
         <div className="space-y-4">
-          <h3 className="text-lg font-medium text-foreground">How are you feeling today?</h3>
+          <div className="space-y-2">
+            <Label>Date</Label>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant={"outline"}
+                  className={cn(
+                    "w-full justify-start text-left font-normal",
+                    !selectedDate && "text-muted-foreground"
+                  )}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  {selectedDate ? format(selectedDate, "PPP") : <span>Pick a date</span>}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                <CalendarComponent
+                  mode="single"
+                  selected={selectedDate}
+                  onSelect={(date) => date && setSelectedDate(date)}
+                  initialFocus
+                  className={cn("p-3 pointer-events-auto")}
+                />
+              </PopoverContent>
+            </Popover>
+          </div>
+          
+          <h3 className="text-lg font-medium text-foreground">How are you feeling on this day?</h3>
           
           {symptoms.map(({ key, label, icon: Icon, color }) => (
             <div key={key} className="space-y-2">
@@ -236,7 +268,7 @@ export default function SymptomLogger({ onLogEntry }: SymptomLoggerProps) {
           className="w-full bg-gradient-primary hover:opacity-90 transition-opacity"
           size="lg"
         >
-          Log Today's Entry
+          Log Entry
         </Button>
       </CardContent>
     </Card>
